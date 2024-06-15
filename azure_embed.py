@@ -3,8 +3,8 @@ import langchain
 #from openai import AzureChatOpenAI
 
 os.environ["OPENAI_API_TYPE"] = "azure"
-os.environ["AZURE_OPENAI_ENDPOINT"] = "https://vlb-tst-openai01.openai.azure.com/"
-os.environ["AZURE_OPENAI_API_KEY"] = "2c8083b8cef04c958c9f2a88894fcf3f"
+#os.environ["AZURE_OPENAI_ENDPOINT"] = "https://vlb-tst-openai01.openai.azure.com/"
+#os.environ["AZURE_OPENAI_API_KEY"] = "2c8083b8cef04c958c9f2a88894fcf3f"
 
 os.environ["AZURE_OPENAI_API_VERSION"] = "2023-06-01-preview"
 os.environ["AZURE_OPENAI_CHAT_DEPLOYMENT_NAME"] = "testtest"

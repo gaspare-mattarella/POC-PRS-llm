@@ -5,7 +5,7 @@ import time
     
 
 client = AzureOpenAI(
-    api_key = '2c8083b8cef04c958c9f2a88894fcf3f',  
+    #api_key = '2c8083b8cef04c958c9f2a88894fcf3f',  
     api_version="2024-02-01",
     azure_endpoint = "https://vlb-tst-openai01.openai.azure.com/",
     )
