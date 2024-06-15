@@ -45,12 +45,11 @@ jsonpatch==1.33
 jsonpointer==3.0.0
 jsonschema==4.17.3
 kiwisolver==1.4.5
-langchain
-langchain-community
-langchain-core
-langchain-openai
-langchain-text-splitters
-langsmith
+langchain==0.2.5
+langchain-community==0.2.5
+langchain-core==0.2.7
+langchain-text-splitters==0.2.1
+langsmith==0.1.77
 loguru==0.6.0
 lxml==4.9.2
 mailtrap==2.0.1
