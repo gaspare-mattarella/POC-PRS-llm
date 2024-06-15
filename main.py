@@ -1,9 +1,11 @@
 import os
 import streamlit as st
-
+import mailtrap as mt
 from utils import doc_loader, summary_prompt_creator, doc_to_final_summary
-from my_prompts import file_map, file_combine
+from my_prompts import file_map, file_combine, file_combine_long
 from streamlit_app_utils import check_gpt_4, check_key_validity, create_temp_file, create_chat_model, token_limit, token_minimum
+import markdown as md
+from st_copy_to_clipboard import st_copy_to_clipboard
 
 def main():
     """
@@ -13,29 +15,41 @@ def main():
     """
     st.logo('ecb-logo_RGB_SymbolOnly.png',link = '', icon_image = 'ecb-logo_RGB_SymbolOnly.png')
     st.html("""
-  <style>
-    [alt=Logo] {
-      height: 4rem;
-    }
-  </style>
-        """)
+        <style>
+        [alt=Logo] {
+            height: 4rem;
+                }
+        </style>
+            """)
 
     st.title("Documents Summarizer")
     st.write("Powered by SupTech")
 
-    uploaded_file = st.file_uploader("Upload a document to summarize:", type=['txt', 'pdf'])
 
     api_key = st.secrets['openai_key']
     use_gpt_4 = False #st.checkbox("Use GPT-4 for the final prompt (STRONGLY recommended, requires GPT-4 API access - progress bar will appear to get stuck as GPT-4 is slow)", value=True)
     #find_clusters = st.sidebar.checkbox('Find optimal clusters (experimental, could save on token usage)', value=False)
     find_clusters = False
     
+    if 'clicked' not in st.session_state:
+        st.session_state.clicked = False
 
-    if st.button('Summarize'): 
+    def click_button():
+        st.session_state.clicked = True
+
+    with st.container():
+        
+        uploaded_file = st.file_uploader("Upload a document to summarize:", type=['txt', 'pdf'])
+        #st.divider()
+
+        st.button('Summarize', on_click=click_button)
+
+
+    if st.session_state.clicked:
         process_summarize_button(uploaded_file, api_key, use_gpt_4, find_clusters)
 
 
-def process_summarize_button(file_or_transcript, api_key, use_gpt_4, find_clusters, file=True):
+def process_summarize_button(file_or_transcript, api_key, use_gpt_4, find_clusters, file=True, lenght='default'):
     """
     Processes the summarize button, and displays the summary if input and doc size are valid
 
@@ -57,7 +71,7 @@ def process_summarize_button(file_or_transcript, api_key, use_gpt_4, find_cluste
             temp_file_path = create_temp_file(file_or_transcript)
             doc = doc_loader(temp_file_path)
             map_prompt = file_map
-            combine_prompt = file_combine
+            combine_prompt = file_combine_long
         
         llm = create_chat_model(api_key, use_gpt_4)
         initial_prompt_list = summary_prompt_creator(map_prompt, 'text', llm)
@@ -68,16 +82,25 @@ def process_summarize_button(file_or_transcript, api_key, use_gpt_4, find_cluste
                 os.unlink(temp_file_path)
             return
 
-        if find_clusters:
-            summary = doc_to_final_summary(doc, 10, initial_prompt_list, final_prompt_list, api_key, use_gpt_4, find_clusters)
-
-        else:
-            summary = doc_to_final_summary(doc, 10, initial_prompt_list, final_prompt_list, api_key, use_gpt_4)
-        #if st.button('Make it more detailed!'):
-        #    return
-        #elif st.button('Make it less detailed!'):
-        #    return
+        
+        summary = doc_to_final_summary(doc, 10, initial_prompt_list, final_prompt_list, api_key, use_gpt_4)
+        
+        # Render copy to clipboard button
+        #st_copy_to_clipboard("Copy this to clipboard")
+        st.divider()
         st.markdown(summary, unsafe_allow_html=True)
+        
+        
+        mail = mt.Mail(
+                    sender=mt.Address(email="mailtrap@demomailtrap.com", name="LLM Newsletter Agent"),
+                    to=[mt.Address(email="ai.research.agent@gmail.com")],
+                    subject="Keypoints and Summary for " + str(file_or_transcript.name),
+                    html = md.markdown(summary)
+                    )   
+        # create client and send
+        client = mt.MailtrapClient(token = st.secrets['maildrop'])
+        client.send(mail)
+        #st.code(summary,language='html')
         if file:
             os.unlink(temp_file_path)
 
@@ -94,7 +117,7 @@ def validate_doc_size(doc):
         st.warning('File or transcript too big!')
         return False
 
-    if not token_minimum(doc, 2000):
+    if not token_minimum(doc, 0):
         st.warning('File or transcript too small!')
         return False
     return True
