@@ -258,8 +258,8 @@ def create_summary_from_docs(summary_docs, initial_chain, final_sum_list, api_ke
     count = token_counter(summaries)
 
     if use_gpt_4:
-        max_tokens = 7500 - int(count)
-        model = 'gpt-3.5-turbo'
+        max_tokens = 4096 - int(count)
+        model = 'gpt-4o'
 
     else:
         max_tokens = 3800 - int(count)

@@ -30,7 +30,7 @@ Synthesize the info into a well-formatted easy-to-read synopsis, structured like
 Do not simply reword the provided text. Do not copy the structure from the provided text.
 Avoid repetition but state everything clearly. Connect all the ideas together.
 Preceding the synopsis, write a bullet form list of key takeaways. 
-THe Synopsis text should be divided into paragraphs. Paragraphs should be indented. 
+This is important: the Synopsis text should be divided into paragraphs. Paragraphs should be indented. 
 Format in HTML and apply style color in black to both the Keypoints and the synopsis. 
 
 '''{text}'''
