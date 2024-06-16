@@ -26,7 +26,7 @@ def main():
     
     
     
-    st.title("Documents Summarizer")
+    st.title("Hermes - A Document Summariser")
     st.write("Powered by SupTech")
     #st.divider()
     api_key = st.secrets['openai_key']
