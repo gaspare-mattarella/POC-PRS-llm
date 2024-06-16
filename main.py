@@ -5,7 +5,9 @@ from utils import doc_loader, summary_prompt_creator, doc_to_final_summary
 from my_prompts import file_map, file_combine, file_combine_long
 from streamlit_app_utils import check_gpt_4, check_key_validity, create_temp_file, create_chat_model, token_limit, token_minimum
 import markdown as md
-from st_copy_to_clipboard import st_copy_to_clipboard
+
+#st.set_page_config(layout="wide")
+
 
 def main():
     """
@@ -21,11 +23,12 @@ def main():
                 }
         </style>
             """)
-
+    
+    
+    
     st.title("Documents Summarizer")
     st.write("Powered by SupTech")
-
-
+    #st.divider()
     api_key = st.secrets['openai_key']
     use_gpt_4 = False #st.checkbox("Use GPT-4 for the final prompt (STRONGLY recommended, requires GPT-4 API access - progress bar will appear to get stuck as GPT-4 is slow)", value=True)
     #find_clusters = st.sidebar.checkbox('Find optimal clusters (experimental, could save on token usage)', value=False)
@@ -37,13 +40,9 @@ def main():
     def click_button():
         st.session_state.clicked = True
 
-    with st.container():
-        
-        uploaded_file = st.file_uploader("Upload a document to summarize:", type=['txt', 'pdf'])
-        #st.divider()
-
-        st.button('Summarize', on_click=click_button)
-
+    
+    uploaded_file = st.file_uploader("Upload a document to summarize:", type=['txt', 'pdf'])
+    st.button('Summarize', on_click=click_button)
 
     if st.session_state.clicked:
         process_summarize_button(uploaded_file, api_key, use_gpt_4, find_clusters)
@@ -84,13 +83,12 @@ def process_summarize_button(file_or_transcript, api_key, use_gpt_4, find_cluste
 
         
         summary = doc_to_final_summary(doc, 10, initial_prompt_list, final_prompt_list, api_key, use_gpt_4)
-        
-        # Render copy to clipboard button
-        #st_copy_to_clipboard("Copy this to clipboard")
-        st.divider()
+        st.header("Keypoints and Summary for " + str(file_or_transcript.name))
+
+        #color_summary = ''':gray-background[%s]''' %summary
         st.markdown(summary, unsafe_allow_html=True)
-        
-        
+
+
         mail = mt.Mail(
                     sender=mt.Address(email="mailtrap@demomailtrap.com", name="LLM Newsletter Agent"),
                     to=[mt.Address(email="ai.research.agent@gmail.com")],

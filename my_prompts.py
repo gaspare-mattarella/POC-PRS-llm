@@ -14,8 +14,8 @@ Determine what the overall document is about and summarize it with this informat
 Synthesize the info into a well-formatted easy-to-read synopsis, structured like an essay that summarizes them cohesively. 
 Do not simply reword the provided text. Do not copy the structure from the provided text.
 Avoid repetition. Connect all the ideas together.
-Preceding the synopsis, write a short, bullet form list of key takeaways.
-Format in HTML. Text should be divided into paragraphs. Paragraphs should be indented. 
+Preceding the synopsis, write a short, bullet form list of key takeaways. Format in HTML and apply style color in balck
+Format in HTML and apply style color in balck, all of it. Text should be divided into paragraphs. Paragraphs should be indented. 
 
 '''{text}'''
 
@@ -29,8 +29,9 @@ Determine what the overall document is about and summarize it with this informat
 Synthesize the info into a well-formatted easy-to-read synopsis, structured like an essay that summarizes them cohesively. 
 Do not simply reword the provided text. Do not copy the structure from the provided text.
 Avoid repetition but state everything clearly. Connect all the ideas together.
-Preceding the synopsis, write a long, bullet form list of key takeaways.
-Format in HTML. Text should be divided into paragraphs. Paragraphs should be indented. 
+Preceding the synopsis, write a bullet form list of key takeaways. 
+THe Synopsis text should be divided into paragraphs. Paragraphs should be indented. 
+Format in HTML and apply style color in black to both the Keypoints and the synopsis. 
 
 '''{text}'''
 
