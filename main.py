@@ -26,7 +26,7 @@ def main():
     
     
     
-    st.title("Hermes - A Document Summariser")
+    st.title("Calliope - Documents Summariser")
     st.write("Powered by SupTech")
     #st.divider()
     api_key = st.secrets['openai_key']
@@ -42,6 +42,7 @@ def main():
 
     
     uploaded_file = st.file_uploader("Upload a document to summarize:", type=['txt', 'pdf'])
+    
     st.button('Summarize', on_click=click_button)
 
     if st.session_state.clicked:
@@ -90,7 +91,7 @@ def process_summarize_button(file_or_transcript, api_key, use_gpt_4, find_cluste
 
 
         mail = mt.Mail(
-                    sender=mt.Address(email="mailtrap@demomailtrap.com", name="LLM Newsletter Agent"),
+                    sender=mt.Address(email="mailtrap@demomailtrap.com", name="Calliope - Doc Summaries"),
                     to=[mt.Address(email="ai.research.agent@gmail.com")],
                     subject="Keypoints and Summary for " + str(file_or_transcript.name),
                     html = md.markdown(summary)
